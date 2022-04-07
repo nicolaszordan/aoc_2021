@@ -1,5 +1,4 @@
 use crate::aoc::AOCPart;
-use std::cmp::Ordering;
 pub struct Part1 {}
 
 impl AOCPart for Part1 {
@@ -86,15 +85,11 @@ fn calc_oxygen_generator_rating(input: Vec<u32>, mask_size: u32, current_bit: u3
                 .map(|elem| (elem & mask) >> bit_offset)
                 .sum::<u32>();
 
-            let average_msb = match (input.len() as u32 - masked_bit_sum).cmp(&masked_bit_sum) {
-                Ordering::Greater => 0,
-                Ordering::Equal => 1,
-                Ordering::Less => 1,
-            };
+            let average_msb = (input.len() as u32 - masked_bit_sum) <= masked_bit_sum;
 
             let filtered_input = input
                 .iter()
-                .filter(|elem| (*elem >> bit_offset) & 1 == average_msb)
+                .filter(|elem| (*elem >> bit_offset) & 1 == average_msb as u32)
                 .copied()
                 .collect::<Vec<u32>>();
 
@@ -117,15 +112,11 @@ fn calc_co2_scrubber_rating(input: Vec<u32>, mask_size: u32, current_bit: u32) -
                 .map(|elem| (elem & mask) >> bit_offset)
                 .sum::<u32>();
 
-            let average_lsb = match (input.len() as u32 - masked_bit_sum).cmp(&masked_bit_sum) {
-                Ordering::Greater => 1,
-                Ordering::Equal => 0,
-                Ordering::Less => 0,
-            };
+            let average_lsb = (input.len() as u32 - masked_bit_sum) > masked_bit_sum;
 
             let filtered_input = input
                 .iter()
-                .filter(|elem| (*elem >> ((mask_size - current_bit) - 1)) & 1 == average_lsb)
+                .filter(|elem| (*elem >> ((mask_size - current_bit) - 1)) & 1 == average_lsb as u32)
                 .copied()
                 .collect::<Vec<u32>>();
 
