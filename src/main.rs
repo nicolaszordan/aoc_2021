@@ -1,5 +1,5 @@
 use aoc_2021::aoc::AOCPart;
-use aoc_2021::day_03::Part2 as Part;
+use aoc_2021::day_04::Part2 as Part;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
